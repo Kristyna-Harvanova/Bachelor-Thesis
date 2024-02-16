@@ -1,0 +1,5 @@
+# downloading images from the web
+requests>=2.31.0
+
+# resizing images
+pillow>=10.2.0
