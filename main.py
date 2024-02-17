@@ -1,9 +1,12 @@
-from load import resize_and_save_png, create_inkscape_svg_with_png
+from load import resize_and_save_png, create_inkscape_svg
+from download_scores import download
 
 def main():
-    #resized_png_path = resize_and_save_png("data\\scores\\3997e154-a7bc-41d8-9bf2-089c50187b10_131_112_2925_3804.jpg", 210, 297)
-    original_png_path = "data\\scores\\3997e154-a7bc-41d8-9bf2-089c50187b10_131_112_2925_3804.jpg"
-    create_inkscape_svg_with_png(original_png_path)
+    scores_paths = download("data\\scores.csv")
+
+    for score_path in scores_paths:
+        #resized_png_path = resize_and_save_png(score_path)
+        create_inkscape_svg(score_path)
 
 if __name__ == "__main__":
     main()
