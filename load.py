@@ -15,6 +15,11 @@ def resize_and_save_png(original_png_path, resized_width=210, resized_height=297
 def create_inkscape_svg(resized_png_path, width=210, height=297):
     png_base_name = os.path.basename(os.path.splitext(resized_png_path)[0])
     svg_file_path = os.path.join("data", "svg_files", png_base_name + ".svg")
+
+    if os.path.exists(svg_file_path):
+        print(f"Skipping {svg_file_path}...")
+        return
+
     os.makedirs(os.path.dirname(svg_file_path), exist_ok=True)
 
     # Create Inkscape SVG with the resized PNG
