@@ -12,8 +12,8 @@ def resize_and_save_png(original_png_path, resized_width=210, resized_height=297
     
     return resized_png_path
 
-def create_inkscape_svg(resized_png_path, width=210, height=297):
-    png_base_name = os.path.basename(os.path.splitext(resized_png_path)[0])
+def create_inkscape_svg(image_path, width=210, height=297):
+    png_base_name = os.path.basename(os.path.splitext(image_path)[0])
     svg_file_path = os.path.join("data", "svg_files", png_base_name + ".svg")
 
     if os.path.exists(svg_file_path):
@@ -70,7 +70,7 @@ def create_inkscape_svg(resized_png_path, width=210, height=297):
             width="{width}"
             height="{height}"
             preserveAspectRatio="none"
-            xlink:href="{resized_png_path}"/>
+            xlink:href="{image_path}"/>
         """)
 
     # From images to annotations
