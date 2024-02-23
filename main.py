@@ -2,6 +2,7 @@ import os
 from download_scores import download
 from load import resize_and_save_png, create_inkscape_svg
 from save import save2json
+from convert_OpenScoreLieder import create_json_for_conversion
 
 def main():
 
@@ -20,9 +21,13 @@ def main():
     #     create_inkscape_svg(imslp_path)
 
 
-    # Save the annoted SVG files to JSON
-    for svg_path in os.listdir("data\\svg_files"):
-        save2json(svg_path)
+    # # Save the annoted SVG files to JSON
+    # for svg_path in os.listdir("data\\svg_files"):
+    #     save2json(svg_path)
+
+    # Create the json_convert_file to the OpenScore-Lieder corpus
+    create_json_for_conversion("datasets\\OpenScoreLieder\\mscx_scores", format="png")
+    create_json_for_conversion("datasets\\OpenScoreLieder\\mscx_scores", format="svg")
 
 
 if __name__ == "__main__":
