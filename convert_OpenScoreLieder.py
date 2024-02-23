@@ -1,6 +1,4 @@
-from typing import Dict, Any
 import os
-import tempfile
 import json
 
 def create_json_for_conversion(
@@ -31,4 +29,3 @@ def create_json_for_conversion(
 
     with open(output_json_path, 'w') as json_file:
         json.dump(conversion_list, json_file, indent=4)
-        
