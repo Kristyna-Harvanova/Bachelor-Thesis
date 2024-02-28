@@ -1,32 +1,22 @@
 from PIL import Image
 import os
 
-def resize_and_save_png(original_png_path, resized_width=210, resized_height=297):
-    resized_png_path = os.path.splitext(original_png_path)[0] + "_resized.png"
+def create_new_workbench(from_image_path, to_path_svg):
+    width, height = -1, -1
+    with Image.open(from_image_path) as img:
+        width, height = img.size
 
-    # Check if the resized image already exists
-    if not os.path.exists(resized_png_path):
-        with Image.open(original_png_path) as img:
-            resized_img = img.resize((resized_width, resized_height))
-            resized_img.save(resized_png_path)
-    
-    return resized_png_path
-
-def create_inkscape_svg(image_path, width=210, height=297):
-    png_base_name = os.path.basename(os.path.splitext(image_path)[0])
-    svg_file_path = os.path.join("data", "svg_files", png_base_name + ".svg")
-
-    if os.path.exists(svg_file_path):
-        print(f"Skipping {svg_file_path}...")
+    if os.path.exists(to_path_svg):
+        print(f"Skipping {to_path_svg}...")
         return
 
-    os.makedirs(os.path.dirname(svg_file_path), exist_ok=True)
+    os.makedirs(os.path.dirname(to_path_svg), exist_ok=True)
 
-    # Create Inkscape SVG with the resized PNG
-    with open(svg_file_path, 'w') as file:
+    # Create SVG to be annotated in Inkscape from the image 
+    with open(to_path_svg, 'w') as file:
         file.write(f"""<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <svg
-       width="{width}"
+        width="{width}"
         height="{height}"
         viewBox="0 0 {width} {height}"
         version="1.1"
@@ -70,7 +60,7 @@ def create_inkscape_svg(image_path, width=210, height=297):
             width="{width}"
             height="{height}"
             preserveAspectRatio="none"
-            xlink:href="{image_path}"/>
+            xlink:href="{from_image_path}"/>
         """)
 
     # From images to annotations
