@@ -5,6 +5,8 @@ class Annotation:
         self.y = y
         self.width = width
         self.height = height
+    
+    CLASSES = ["Note"]  #TODO: pridat dalsi mozne tridy
 
     def to_json(self) -> dict:
         return {

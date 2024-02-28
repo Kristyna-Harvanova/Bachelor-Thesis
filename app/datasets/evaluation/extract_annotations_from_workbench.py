@@ -2,8 +2,6 @@ from svgelements import *
 import json
 from ...Annotation import Annotation
 
-#TODO: find the class in the SVG file
-
 def extract_annotations_from_workbench(from_path_svg, to_path_json, cls = "Note"):
     # Load the SVG file
     with open(from_path_svg) as svg_file:
@@ -20,14 +18,20 @@ def extract_annotations_from_workbench(from_path_svg, to_path_json, cls = "Note"
 
             svg_info["width"] = width
             svg_info["height"] = height
+        
+        elif type(element) is Group:
+            cls = element.values.get("{http://www.inkscape.org/namespaces/inkscape}label")
+            if cls not in Annotation.CLASSES: continue
 
-        elif type(element) is Rect:
-            x = round(float(element.values.get("x")))
-            y = round(float(element.values.get("y")))
-            width = round(float(element.values.get("width")))
-            height = round(float(element.values.get("height")))
-            annotation_bbox = Annotation(cls, x, y, width, height)
-            annotation_bboxes.append(annotation_bbox.to_json())
+            for child in element:
+                if type(child) is not Rect: continue
+
+                x = round(float(child.values.get("x")))
+                y = round(float(child.values.get("y")))
+                width = round(float(child.values.get("width")))
+                height = round(float(child.values.get("height")))
+                annotation_bbox = Annotation(cls, x, y, width, height)
+                annotation_bboxes.append(annotation_bbox.to_json())
     
     svg_info["annotations"] = annotation_bboxes
     

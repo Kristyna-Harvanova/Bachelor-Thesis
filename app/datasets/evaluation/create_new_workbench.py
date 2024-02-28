@@ -69,9 +69,20 @@ def create_new_workbench(from_image_path, to_path_svg):
     <g
         inkscape:groupmode="layer"
         id="layer2"
-        inkscape:label="Annotations"
+        inkscape:label="Note"
         style="display:inline">
     """)
+
+
+    #TODO: add other classes as layers to the SVG file, specified in Annotation.CLASSES
+    #     file.write("""
+    # </g>
+    # <g
+    #     inkscape:groupmode="layer"
+    #     id="layer3"
+    #     inkscape:label="Annotation.CLASSES[1]"    #Bar
+    #     style="display:inline">
+    # """)
 
     # Footer
         file.write("""
