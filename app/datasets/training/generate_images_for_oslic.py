@@ -3,7 +3,8 @@ import json
 
 def convert_mscx2format(
     dataset_dir_path: str, 
-    format: str = "png"):
+    format: str = "png"
+):
     """ Convert all .mscx files in the dataset directory to the specified format. """
 
     # Create a JSON file for the conversion
@@ -13,15 +14,12 @@ def convert_mscx2format(
     os.system(f"\"C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe\" -j {json_path}")
 
     # Remove the JSON file
-    #os.remove(json_path)   #TODO: remove
-
-    #TODO: od Kinkel, 2. jsou svg prazdne
-    #TODO: vytvorilo se pouze do G. Mahler, 5. dalsi uz ne
+    #os.remove(json_path)   #TODO: remove????
 
 def create_json_for_conversion(
     dataset_dir_path: str,
     format="png",
-):
+) -> str:
     """ Create a JSON file for the conversion of all .mscx files in the dataset directory to the specified format. """
     conversion_list = []
 
@@ -33,6 +31,11 @@ def create_json_for_conversion(
                 # Construct the full paths for input and output files
                 in_path = os.path.join(root, file)
                 out_path = in_path.replace(".mscx", ("." + format))#.replace("mscx_scores", format + "_files")
+
+                # TODO: ASK, je to v pohode, kdyz nebudou vsechny stranky z .mscx souboru?
+                # # Skip already made .format files (there will be maybe some missing pages. xxx-1.format, xxx-2.format, ...)
+                # if os.path.exists(out_path) or os.path.exists(out_path.replace(f".{format}", f"-1.{format}")):
+                #     continue
 
                 # Add to conversion list
                 conversion_list.append({
