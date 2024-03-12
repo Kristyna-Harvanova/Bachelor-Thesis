@@ -1,16 +1,19 @@
 from PIL import Image
-import os
+from pathlib import Path
 
-def create_new_workbench(from_image_path, to_path_svg):
+def create_new_workbench(
+    from_image_path: str, 
+    to_path_svg: str
+):
     width, height = -1, -1
     with Image.open(from_image_path) as img:
         width, height = img.size
 
-    if os.path.exists(to_path_svg):
+    if Path(to_path_svg).exists():  #if os.path.exists(to_path_svg):
         print(f"Skipping {to_path_svg}...")
         return
 
-    os.makedirs(os.path.dirname(to_path_svg), exist_ok=True)
+    Path(to_path_svg).parent.mkdir(parents=True, exist_ok=True)  #os.makedirs(os.path.dirname(to_path_svg), exist_ok=True)
 
     # Create SVG to be annotated in Inkscape from the image 
     with open(to_path_svg, 'w') as file:

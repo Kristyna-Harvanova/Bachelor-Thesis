@@ -2,7 +2,10 @@ from svgelements import *
 import json
 from ...Annotation import Annotation
 
-def extract_annotations_from_workbench(from_path_svg, to_path_json, cls = "Note"):
+def extract_annotations_from_workbench(
+    from_path_svg: str, 
+    to_path_json: str
+):
     # Load the SVG file
     with open(from_path_svg) as svg_file:
         svg_file: SVG = SVG.parse(svg_file, reify=True)
@@ -26,10 +29,10 @@ def extract_annotations_from_workbench(from_path_svg, to_path_json, cls = "Note"
             for child in element:
                 if type(child) is not Rect: continue
 
-                x = round(float(child.values.get("x")))
-                y = round(float(child.values.get("y")))
-                width = round(float(child.values.get("width")))
-                height = round(float(child.values.get("height")))
+                x = int(float(child.values.get("x")))
+                y = int(float(child.values.get("y")))
+                width = int(float(child.values.get("width")))
+                height = int(float(child.values.get("height")))
                 annotation_bbox = Annotation(cls, x, y, width, height)
                 annotation_bboxes.append(annotation_bbox.to_json())
     
