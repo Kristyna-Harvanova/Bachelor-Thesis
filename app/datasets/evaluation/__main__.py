@@ -1,7 +1,7 @@
 from .extract_annotations_from_workbench import extract_annotations_from_workbench
 from .create_new_workbench import create_new_workbench
-from pathlib import Path    #TODO: vsude opravit na cestu nezavislou na OS - hotovo skoro vsude
-#TODO: predelat os.neco na Path.neco viz Discord - hotovo skoro vsude
+from pathlib import Path    #TODO: vsude opravit na cestu nezavislou na OS - hotovo skoro vsude az na generate_images_for_oslic.py
+#TODO: predelat os.neco na Path.neco viz Discord - hotovo skoro vsude az na generate_images_for_oslic.py
 
 def main():
     # Create new workbenches from the images
