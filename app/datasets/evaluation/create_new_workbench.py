@@ -86,6 +86,8 @@ def create_new_workbench(
     #     inkscape:label="Annotation.CLASSES[1]"    #Bar
     #     style="display:inline">
     # """)
+    
+    #TODO: pak zaktualizovat i evaluation_dataset i validation_dataset
 
     # Footer
         file.write("""
