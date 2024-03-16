@@ -1,13 +1,12 @@
 from svgelements import *
 import json
+from statistics import median
 from ...Annotation import Annotation
 
 def extract_annotations_from_mscore_svg(
     from_path_svg: str, 
     to_path_json: str
 ):
-    
-    print(to_path_json)
     # Load the SVG file
     with open(from_path_svg) as svg_file:
         svg_file: SVG = SVG.parse(svg_file, reify=True)
@@ -15,7 +14,7 @@ def extract_annotations_from_mscore_svg(
     svg_info = {}
     annotation_bboxes = []
     
-    wanted_classes = ["Note", "StaffLine", "BarLine"] #TODO: nejen Path, ale i PolyLine
+    wanted_classes = ["Note", "StaffLines", "BarLine"]
 
     notes = []
     staff_lines = []
@@ -34,33 +33,108 @@ def extract_annotations_from_mscore_svg(
             cls = element.values.get('class', '')
             if cls not in wanted_classes: continue  
 
-            # if cls = neco:
-            #     notes.append(element)
-            # elif 
-            # elif
-            #     #TODO
-
-            # bbox = element.bbox()
-            # #annotation_bbox = Annotation(cls, bbox.x, bbox.y, bbox.width, bbox.height)
-            # x, y, width, height = bbox
-            # annotation_bbox = Annotation(cls, int(x), int(y), int(width), int(height))
-            # annotation_bboxes.append(annotation_bbox.to_json())
+            if cls == wanted_classes[0]:
+                notes.append(element)
+            elif cls == wanted_classes[1]:
+                staff_lines.append(element)
+            elif cls == wanted_classes[2]:
+                bar_lines.append(element)
     
-    #projit ty 3 pole a 
-            # pro Notes udelat bbox viz vyse
-            # pro staff_lines vytvorit funkci, ktera z 5 lines udaela jednu staff s info pro bbox
-            # pro bar_lines vzit si staff a rozdelit ji barline a vutvorit bbox
+    # Process the notes
+    process_notes(notes, annotation_bboxes)
 
+    # Process the staff lines
+    staves = process_staff_lines(staff_lines, annotation_bboxes)
 
+    # Process the bar lines
+    process_bar_lines(bar_lines, annotation_bboxes, staves)
 
-
-
-
+    # Add the annotations to the SVG info
     svg_info["annotations"] = annotation_bboxes
-    
-    print("Parsed score:", from_path_svg)
+
+    #print("Parsed score:", from_path_svg)
 
     # Save the information to a JSON file
     with open(to_path_json, "w") as json_file:
         json.dump(svg_info, json_file, indent=4)
     
+
+def process_notes(
+    notes: list, 
+    annotation_bboxes: list    
+):
+    for note in notes:
+        annotation_class = Annotation.CLASSES[0]
+        x, y, x_and_width, y_and_height = note.bbox()
+        width = x_and_width - x
+        height = y_and_height - y
+        annotation_bbox = Annotation(annotation_class, int(x), int(y), int(width), int(height))
+        annotation_bboxes.append(annotation_bbox.to_json())
+
+def process_staff_lines(
+    staff_lines: list,
+    annotation_bboxes: list
+) -> list[Annotation]:
+    
+    # Sort the staff lines by their y coordinate
+    staff_lines_sorted = sorted(staff_lines, key=lambda x: x.bbox()[1]) 
+
+    # Calculate the differences between the staff lines and find the average
+    differences = [staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1] for i in range(len(staff_lines_sorted)-1)]
+    average_diff = median(differences) 
+    possible_shift = 5
+
+    staves = []
+    staff = []
+    for staff_line in staff_lines_sorted:
+        # If the staff is empty, add the first staff line
+        if (len(staff) == 0): staff.append(staff_line)
+
+        # Add the next staff lines to the staff
+        elif (len(staff) < 5):
+            y_diff = staff_line.bbox()[1] - staff[-1].bbox()[1]
+            if (y_diff > average_diff - possible_shift and y_diff < average_diff + possible_shift): 
+                staff.append(staff_line)
+            else: print("Incomplete staff")     # NOTE: This should not happen.
+
+        # If the staff is complete, create a bounding box and reset the staff
+        if (len(staff) == 5):
+            annotation_class = Annotation.CLASSES[1]
+            x, y, x_and_width, _ = staff[0].bbox()  # Get the bounding box of the first staff line
+            width = x_and_width - x
+            height = staff[-1].bbox()[3] - y        # Get the height of the staff = whole 5 lines
+            annotation_bbox = Annotation(annotation_class, int(x), int(y), int(width), int(height))
+            annotation_bboxes.append(annotation_bbox.to_json())
+            staves.append(annotation_bbox)
+            staff = []
+    
+    return staves
+
+def process_bar_lines(
+    bar_lines: list,
+    annotation_bboxes: list,
+    staves: list[Annotation]
+):
+    # Sort the bar lines by their x and then y coordinate (final order from left to right and from top to bottom)
+    bar_lines_sorted = sorted(bar_lines, key=lambda x: x.bbox()[0])
+    bar_lines_sorted.sort(key=lambda x: x.bbox()[1])
+    
+    two_barline_diff = 20   # There can be a measure, that ends with two bar lines, but the space between them is not another measure.
+    new_staff_diff = 1.1 * staves[0].height     # The minimal space between the staves must be slightly greater than the height of the staff
+
+    # Create a bounding box for each bar
+    staff_index = 0
+    for i in range(len(bar_lines_sorted)):
+        annotation_class = Annotation.CLASSES[2]
+        x, y, _, _ = bar_lines_sorted[i].bbox()
+        x2, y2, _, _ = bar_lines_sorted[i+1].bbox() if i+1 < len(bar_lines_sorted) else (0, 0, 0, 0)
+
+        if (y2 - y) > new_staff_diff: 
+            staff_index += 1
+            continue   # This is not a measure, but a new line = new staff. (Or the end of the score.)
+        if (x2 - x) < two_barline_diff: continue    # This is not a measure, but a double bar line.
+
+        width = x2 - x
+        height = staves[staff_index].height
+        annotation_bbox = Annotation(annotation_class, int(x), int(y), int(width), int(height))
+        annotation_bboxes.append(annotation_bbox.to_json())

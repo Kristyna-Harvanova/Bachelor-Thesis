@@ -17,5 +17,5 @@ class Annotation:
             "x": self.x,
             "y": self.y,
             "width": self.width,
-            "height": self.height
+            "height": self.height,
         }
