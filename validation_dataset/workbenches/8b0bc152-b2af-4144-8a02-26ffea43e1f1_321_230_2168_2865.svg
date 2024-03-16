@@ -46,13 +46,27 @@
             preserveAspectRatio="none"
             xlink:href="validation_dataset\images\8b0bc152-b2af-4144-8a02-26ffea43e1f1_321_230_2168_2865.jpg"/>
         
-    </g>
-    <g
-        inkscape:groupmode="layer"
-        id="layer2"
-        inkscape:label="Note"
-        style="display:inline">
-    
+        </g>
+        <g
+            inkscape:groupmode="layer"
+            id="layer2"
+            inkscape:label="Notehead"
+            style="display:inline">
+        
+        </g>
+        <g
+            inkscape:groupmode="layer"
+            id="layer3"
+            inkscape:label="Staff"
+            style="display:inline">
+        
+        </g>
+        <g
+            inkscape:groupmode="layer"
+            id="layer4"
+            inkscape:label="StaffMeasure"
+            style="display:inline">
+        
       </g>
     </svg>
     

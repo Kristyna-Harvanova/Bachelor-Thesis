@@ -3,7 +3,7 @@ from typing import ClassVar, List
 
 @dataclass
 class Annotation:
-    CLASSES: ClassVar[List[str]] = ["Notehead", "Staff", "StaffMeasure"]  #TODO: pridat do skriptu obou, kde se vola pro cele pole
+    CLASSES: ClassVar[List[str]] = ["Notehead", "Staff", "StaffMeasure"]
 
     cls: str
     x: int

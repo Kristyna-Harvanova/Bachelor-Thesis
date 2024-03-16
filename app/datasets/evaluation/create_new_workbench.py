@@ -1,5 +1,6 @@
 from PIL import Image
 from pathlib import Path
+from ...Annotation import Annotation
 
 def create_new_workbench(
     from_image_path: str, 
@@ -67,28 +68,18 @@ def create_new_workbench(
         """)
 
     # From images to annotations
-        file.write("""
-    </g>
-    <g
-        inkscape:groupmode="layer"
-        id="layer2"
-        inkscape:label="Note"
-        style="display:inline">
-    """)
-
-
-    #TODO: add other classes as layers to the SVG file, specified in Annotation.CLASSES
-    #     file.write("""
-    # </g>
-    # <g
-    #     inkscape:groupmode="layer"
-    #     id="layer3"
-    #     inkscape:label="Annotation.CLASSES[1]"    #Bar
-    #     style="display:inline">
-    # """)
+        layer_id = 2
+        for cls in Annotation.CLASSES:
+            file.write(f"""
+        </g>
+        <g
+            inkscape:groupmode="layer"
+            id="layer{layer_id}"
+            inkscape:label="{cls}"
+            style="display:inline">
+        """)
+            layer_id += 1
     
-    #TODO: pak zaktualizovat i evaluation_dataset i validation_dataset
-
     # Footer
         file.write("""
       </g>
