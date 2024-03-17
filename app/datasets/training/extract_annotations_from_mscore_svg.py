@@ -83,7 +83,7 @@ def process_staff_lines(
     # Calculate the differences between the staff lines and find the average
     differences = [staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1] for i in range(len(staff_lines_sorted)-1)]
     average_diff = median(differences) 
-    possible_shift = 7
+    possible_shift = 8
 
     # Merge staff lines that consist of multiple objects.
     # i = 0

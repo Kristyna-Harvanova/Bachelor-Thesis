@@ -31,8 +31,8 @@ def main():
     # ranom_svgs.append(svg_files[len(svg_files) - 1])
 
     #for svg_file in ranom_svgs:
-    i = 1152
-    for svg_file in svg_files[1151:]:
+    i = 2065
+    for svg_file in svg_files[2064:]:
         print(i)
         i += 1
         extract_annotations_from_mscore_svg(      #NOTE: info trva cca XX minut.
