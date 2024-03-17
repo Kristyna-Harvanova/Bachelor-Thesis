@@ -30,7 +30,7 @@ def main():
     # ranom_svgs.append(svg_files[len(svg_files) - 50])
     # ranom_svgs.append(svg_files[len(svg_files) - 1])
 
-    for svg_file in ranom_svgs:
+    # for svg_file in ranom_svgs:
     i = 2065
     for svg_file in svg_files[2064:]:
         print(i)
