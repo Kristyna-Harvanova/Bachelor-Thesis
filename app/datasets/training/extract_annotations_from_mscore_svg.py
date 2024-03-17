@@ -80,11 +80,6 @@ def process_staff_lines(
     staff_lines_sorted = sorted(staff_lines, key=lambda x: x.bbox()[0])
     staff_lines_sorted.sort(key=lambda x: x.bbox()[1]) 
 
-    # Calculate the differences between the staff lines and find the average
-    differences = [staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1] for i in range(len(staff_lines_sorted)-1)]
-    average_diff = median(differences) 
-    possible_shift = 8
-
     # Merge staff lines that consist of multiple objects.
     # i = 0
     # for i in range(len(staff_lines_sorted) - 2):    # The last staff line is not continuing to the next one.
@@ -153,9 +148,18 @@ def process_staff_lines(
 
     staff_lines_final.append(current_staff_line)
 
+    # for i, staff_line in enumerate(staff_lines_final):
+    #     print(f"staff_line {i}: {staff_line.bbox()}")
+
+    # Calculate the differences between the staff lines and find the average
+    differences = [staff_lines_final[i+1].bbox()[1] - staff_lines_final[i].bbox()[1] for i in range(len(staff_lines_final)-1)]
+    average_diff = median(differences) 
+    possible_shift = 8
+
     staves = []
     staff = []
     for staff_line in staff_lines_final:
+        #print(f"staff_line: {staff_line.bbox()}")
         # If the staff is empty, add the first staff line
         if (len(staff) == 0): 
             staff.append(staff_line)
@@ -166,6 +170,7 @@ def process_staff_lines(
             #print(f"Staff line to be added {staff_line.bbox()}")
             y_diff = staff_line.bbox()[1] - staff[-1].bbox()[1]
             #print(f"y_diff: {y_diff}")
+            #print(f"average_diff: {average_diff}")
 
             # if (y_diff > -1 and y_diff < 1): # The staff line is the same as the previous, just divided into multiple objects.
             #     merged_bbox = (

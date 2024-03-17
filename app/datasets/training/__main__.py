@@ -30,7 +30,7 @@ def main():
     # ranom_svgs.append(svg_files[len(svg_files) - 50])
     # ranom_svgs.append(svg_files[len(svg_files) - 1])
 
-    #for svg_file in ranom_svgs:
+    for svg_file in ranom_svgs:
     i = 2065
     for svg_file in svg_files[2064:]:
         print(i)
@@ -41,8 +41,8 @@ def main():
         )
     
     # extract_annotations_from_mscore_svg(
-    #     "datasets\\Lieder-main\\scores\\Barnard,_Charlotte_Alington_-_aka_Claribel\\_\\Farewell_to_Erin\\lc6623221-3.svg",
-    #     str("datasets\\Lieder-main\\scores\\Barnard,_Charlotte_Alington_-_aka_Claribel\\_\\Farewell_to_Erin\\lc6623221-3.json")
+    #     "datasets\\Lieder-main\\scores\\Paradis,_Maria_Theresia_von\\12_Lieder,_1786\\12_An_meine_entfernte_Lieben\\lc5995663-1.svg",
+    #     str("datasets\\Lieder-main\\scores\\Paradis,_Maria_Theresia_von\\12_Lieder,_1786\\12_An_meine_entfernte_Lieben\\lc5995663-1.json")
     # )
     
     #TODO: nechat bezet a vytvorit vsecny jsony (trva to), az budu mit dostupne vsechny svg viz convert_mscx2format a hotovy kod extract_annotations_from_mscore_svg
