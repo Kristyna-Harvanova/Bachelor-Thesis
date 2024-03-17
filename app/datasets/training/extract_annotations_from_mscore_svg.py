@@ -41,18 +41,18 @@ def extract_annotations_from_mscore_svg(
                 bar_lines.append(element)
     
     # Process the notes
-    process_notes(notes, annotation_bboxes)
+    if len(notes) > 0: process_notes(notes, annotation_bboxes)
 
     # Process the staff lines
-    staves = process_staff_lines(staff_lines, annotation_bboxes)
+    if len(staff_lines) > 0: staves = process_staff_lines(staff_lines, annotation_bboxes)
 
     # Process the bar lines
-    process_bar_lines(bar_lines, annotation_bboxes, staves)
+    if len(bar_lines) > 0: process_bar_lines(bar_lines, annotation_bboxes, staves)
 
     # Add the annotations to the SVG info
     svg_info["annotations"] = annotation_bboxes
 
-    #print("Parsed score:", from_path_svg)
+    print("Parsed score:", from_path_svg)
 
     # Save the information to a JSON file
     with open(to_path_json, "w") as json_file:
@@ -76,23 +76,107 @@ def process_staff_lines(
     annotation_bboxes: list
 ) -> list[Annotation]:
     
-    # Sort the staff lines by their y coordinate
-    staff_lines_sorted = sorted(staff_lines, key=lambda x: x.bbox()[1]) 
+    # Sort the staff lines by their x and then y coordinate (final order from left to right and from top to bottom)
+    staff_lines_sorted = sorted(staff_lines, key=lambda x: x.bbox()[0])
+    staff_lines_sorted.sort(key=lambda x: x.bbox()[1]) 
 
     # Calculate the differences between the staff lines and find the average
     differences = [staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1] for i in range(len(staff_lines_sorted)-1)]
     average_diff = median(differences) 
-    possible_shift = 5
+    possible_shift = 7
+
+    # Merge staff lines that consist of multiple objects.
+    # i = 0
+    # for i in range(len(staff_lines_sorted) - 2):    # The last staff line is not continuing to the next one.
+    #     print(f"i: {i}")
+    #     print(f"previous merged {staff_lines_sorted[i-1].bbox()}")
+    #     y_diff = staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1]
+    #     if (y_diff > -1 and y_diff < 1): # The staff line is the same as the previous, just divided into multiple objects.
+    #         merged_bbox = (
+    #             staff_lines_sorted[i].bbox()[0], 
+    #             staff_lines_sorted[i].bbox()[1], 
+    #             staff_lines_sorted[i+1].bbox()[2], 
+    #             staff_lines_sorted[i+1].bbox()[3]    
+    #         )
+    #         staff_lines_sorted[i].bbox = lambda: merged_bbox
+    #         staff_lines_sorted.pop(i+1)
+    #         #i -= 1
+    
+    # i = 0
+    # while (i < len(staff_lines_sorted) - 1):
+    #     y_diff = staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1]
+    #     if (y_diff > -1 and y_diff < 1):
+    #         # print(f"before staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+    #         # print(f"before staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
+    #         merged_bbox = (
+    #             staff_lines_sorted[i].bbox()[0], 
+    #             staff_lines_sorted[i].bbox()[1], 
+    #             staff_lines_sorted[i+1].bbox()[2], 
+    #             staff_lines_sorted[i+1].bbox()[3]    
+    #         )
+    #         staff_lines_sorted[i].bbox = lambda: merged_bbox
+    #         staff_lines_sorted.pop(i+1)
+    #         # print(f"after staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+    #         # print(f"after staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
+    #         # print(f"--------------------------------------------")
+    #         print(f"staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+    #     else:
+    #         print(f"staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+    #         i += 1
+
+    staff_lines_final = []
+    current_staff_line = staff_lines_sorted[0]
+    i = 1
+    while (i < len(staff_lines_sorted)):
+        y_diff = staff_lines_sorted[i].bbox()[1] - current_staff_line.bbox()[1]
+        if (y_diff > -1 and y_diff < 1):
+            # print(f"before staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+            # print(f"before staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
+            merged_bbox = (
+                current_staff_line.bbox()[0],
+                current_staff_line.bbox()[1], 
+                staff_lines_sorted[i].bbox()[2], 
+                staff_lines_sorted[i].bbox()[3]    
+            )
+            
+            current_staff_line = Polyline(merged_bbox)
+
+            #i += 1
+            # print(f"after staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
+            # print(f"after staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
+            # print(f"--------------------------------------------")
+        else:
+            staff_lines_final.append(current_staff_line)
+            current_staff_line = staff_lines_sorted[i]
+        #print(f"staff_lines_sorted[{i}]: {staff_lines_final[i].bbox()}")
+        i += 1
+
+    staff_lines_final.append(current_staff_line)
 
     staves = []
     staff = []
-    for staff_line in staff_lines_sorted:
+    for staff_line in staff_lines_final:
         # If the staff is empty, add the first staff line
-        if (len(staff) == 0): staff.append(staff_line)
+        if (len(staff) == 0): 
+            staff.append(staff_line)
+            #print(f"First staff line added {staff_line.bbox()}")
 
         # Add the next staff lines to the staff
         elif (len(staff) < 5):
+            #print(f"Staff line to be added {staff_line.bbox()}")
             y_diff = staff_line.bbox()[1] - staff[-1].bbox()[1]
+            #print(f"y_diff: {y_diff}")
+
+            # if (y_diff > -1 and y_diff < 1): # The staff line is the same as the previous, just divided into multiple objects.
+            #     merged_bbox = (
+            #         staff[-1].bbox()[0], 
+            #         staff[-1].bbox()[1], 
+            #         staff_line.bbox()[2] - staff[-1].bbox()[0], 
+            #         staff_line.bbox()[3]    
+            #     )
+            #     staff[-1].bbox = lambda: merged_bbox
+            #     continue
+
             if (y_diff > average_diff - possible_shift and y_diff < average_diff + possible_shift): 
                 staff.append(staff_line)
             else: print("Incomplete staff")     # NOTE: This should not happen.

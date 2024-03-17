@@ -23,19 +23,27 @@ def main():
     svg_files = list(path_svgs.glob("**/*.svg"))
     svg_files.sort() # Sort files if not in the same directory
 
-    ranom_svgs = []
-    ranom_svgs.append(svg_files[0])
-    ranom_svgs.append(svg_files[68])
-    ranom_svgs.append(svg_files[len(svg_files) - 300])
-    ranom_svgs.append(svg_files[len(svg_files) - 50])
-    ranom_svgs.append(svg_files[len(svg_files) - 1])
+    # ranom_svgs = []
+    # ranom_svgs.append(svg_files[0])
+    # ranom_svgs.append(svg_files[68])
+    # ranom_svgs.append(svg_files[len(svg_files) - 300])
+    # ranom_svgs.append(svg_files[len(svg_files) - 50])
+    # ranom_svgs.append(svg_files[len(svg_files) - 1])
 
-    for svg_file in ranom_svgs:
-    #for svg_file in svg_files[:1]:
+    #for svg_file in ranom_svgs:
+    i = 334
+    for svg_file in svg_files[333:]:
+        print(i)
+        i += 1
         extract_annotations_from_mscore_svg(      #NOTE: info trva cca XX minut.
             str(svg_file),
             str(svg_file.with_suffix(".json")) 
         )
+    
+    # extract_annotations_from_mscore_svg(
+    #     "datasets\\Lieder-main\\scores\\Barnard,_Charlotte_Alington_-_aka_Claribel\\_\\Farewell_to_Erin\\lc6623221-3.svg",
+    #     str("datasets\\Lieder-main\\scores\\Barnard,_Charlotte_Alington_-_aka_Claribel\\_\\Farewell_to_Erin\\lc6623221-3.json")
+    # )
     
     #TODO: nechat bezet a vytvorit vsecny jsony (trva to), az budu mit dostupne vsechny svg viz convert_mscx2format a hotovy kod extract_annotations_from_mscore_svg
 
