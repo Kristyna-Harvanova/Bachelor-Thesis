@@ -76,112 +76,48 @@ def process_staff_lines(
     annotation_bboxes: list
 ) -> list[Annotation]:
     
-    # Sort the staff lines by their x and then y coordinate (final order from left to right and from top to bottom)
+    # Sort the staff lines by their x and then y coordinate (final order from left to right and from top to bottom).
     staff_lines_sorted = sorted(staff_lines, key=lambda x: x.bbox()[0])
     staff_lines_sorted.sort(key=lambda x: x.bbox()[1]) 
 
     # Merge staff lines that consist of multiple objects.
-    # i = 0
-    # for i in range(len(staff_lines_sorted) - 2):    # The last staff line is not continuing to the next one.
-    #     print(f"i: {i}")
-    #     print(f"previous merged {staff_lines_sorted[i-1].bbox()}")
-    #     y_diff = staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1]
-    #     if (y_diff > -1 and y_diff < 1): # The staff line is the same as the previous, just divided into multiple objects.
-    #         merged_bbox = (
-    #             staff_lines_sorted[i].bbox()[0], 
-    #             staff_lines_sorted[i].bbox()[1], 
-    #             staff_lines_sorted[i+1].bbox()[2], 
-    #             staff_lines_sorted[i+1].bbox()[3]    
-    #         )
-    #         staff_lines_sorted[i].bbox = lambda: merged_bbox
-    #         staff_lines_sorted.pop(i+1)
-    #         #i -= 1
-    
-    # i = 0
-    # while (i < len(staff_lines_sorted) - 1):
-    #     y_diff = staff_lines_sorted[i+1].bbox()[1] - staff_lines_sorted[i].bbox()[1]
-    #     if (y_diff > -1 and y_diff < 1):
-    #         # print(f"before staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-    #         # print(f"before staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
-    #         merged_bbox = (
-    #             staff_lines_sorted[i].bbox()[0], 
-    #             staff_lines_sorted[i].bbox()[1], 
-    #             staff_lines_sorted[i+1].bbox()[2], 
-    #             staff_lines_sorted[i+1].bbox()[3]    
-    #         )
-    #         staff_lines_sorted[i].bbox = lambda: merged_bbox
-    #         staff_lines_sorted.pop(i+1)
-    #         # print(f"after staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-    #         # print(f"after staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
-    #         # print(f"--------------------------------------------")
-    #         print(f"staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-    #     else:
-    #         print(f"staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-    #         i += 1
-
     staff_lines_final = []
     current_staff_line = staff_lines_sorted[0]
     i = 1
     while (i < len(staff_lines_sorted)):
         y_diff = staff_lines_sorted[i].bbox()[1] - current_staff_line.bbox()[1]
-        if (y_diff > -1 and y_diff < 1):
-            # print(f"before staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-            # print(f"before staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
+
+        # The staff line is the same as the previous, just divided into multiple objects.
+        if (y_diff > -1 and y_diff < 1):    
             merged_bbox = (
                 current_staff_line.bbox()[0],
                 current_staff_line.bbox()[1], 
                 staff_lines_sorted[i].bbox()[2], 
                 staff_lines_sorted[i].bbox()[3]    
             )
-            
             current_staff_line = Polyline(merged_bbox)
-
-            #i += 1
-            # print(f"after staff_lines_sorted[{i}]: {staff_lines_sorted[i].bbox()}")
-            # print(f"after staff_lines_sorted[{i+1}]: {staff_lines_sorted[i+1].bbox()}")
-            # print(f"--------------------------------------------")
         else:
             staff_lines_final.append(current_staff_line)
             current_staff_line = staff_lines_sorted[i]
-        #print(f"staff_lines_sorted[{i}]: {staff_lines_final[i].bbox()}")
         i += 1
-
     staff_lines_final.append(current_staff_line)
-
-    # for i, staff_line in enumerate(staff_lines_final):
-    #     print(f"staff_line {i}: {staff_line.bbox()}")
 
     # Calculate the differences between the staff lines and find the average
     differences = [staff_lines_final[i+1].bbox()[1] - staff_lines_final[i].bbox()[1] for i in range(len(staff_lines_final)-1)]
     average_diff = median(differences) 
     possible_shift = 8
 
+    # Cluster staff lines into staves.
     staves = []
     staff = []
     for staff_line in staff_lines_final:
-        #print(f"staff_line: {staff_line.bbox()}")
         # If the staff is empty, add the first staff line
         if (len(staff) == 0): 
             staff.append(staff_line)
-            #print(f"First staff line added {staff_line.bbox()}")
 
         # Add the next staff lines to the staff
         elif (len(staff) < 5):
-            #print(f"Staff line to be added {staff_line.bbox()}")
             y_diff = staff_line.bbox()[1] - staff[-1].bbox()[1]
-            #print(f"y_diff: {y_diff}")
-            #print(f"average_diff: {average_diff}")
-
-            # if (y_diff > -1 and y_diff < 1): # The staff line is the same as the previous, just divided into multiple objects.
-            #     merged_bbox = (
-            #         staff[-1].bbox()[0], 
-            #         staff[-1].bbox()[1], 
-            #         staff_line.bbox()[2] - staff[-1].bbox()[0], 
-            #         staff_line.bbox()[3]    
-            #     )
-            #     staff[-1].bbox = lambda: merged_bbox
-            #     continue
-
             if (y_diff > average_diff - possible_shift and y_diff < average_diff + possible_shift): 
                 staff.append(staff_line)
             else: print("Incomplete staff")     # NOTE: This should not happen.
