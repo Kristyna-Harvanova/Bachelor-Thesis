@@ -105,7 +105,7 @@ def process_staff_lines(
     # Calculate the differences between the staff lines and find the average
     differences = [staff_lines_final[i+1].bbox()[1] - staff_lines_final[i].bbox()[1] for i in range(len(staff_lines_final)-1)]
     average_diff = median(differences) 
-    possible_shift = 8
+    POSSIBLE_SHIFT = 8
 
     # Cluster staff lines into staves.
     staves = []
@@ -118,7 +118,7 @@ def process_staff_lines(
         # Add the next staff lines to the staff
         elif (len(staff) < 5):
             y_diff = staff_line.bbox()[1] - staff[-1].bbox()[1]
-            if (y_diff > average_diff - possible_shift and y_diff < average_diff + possible_shift): 
+            if (y_diff > average_diff - POSSIBLE_SHIFT and y_diff < average_diff + POSSIBLE_SHIFT): 
                 staff.append(staff_line)
             else: print("Incomplete staff")     # NOTE: This should not happen.
 
@@ -144,8 +144,8 @@ def process_bar_lines(
     bar_lines_sorted = sorted(bar_lines, key=lambda x: x.bbox()[0])
     bar_lines_sorted.sort(key=lambda x: x.bbox()[1])
     
-    two_barline_diff = 20   # There can be a measure, that ends with two bar lines, but the space between them is not another measure.
-    new_staff_diff = 1.1 * staves[0].height     # The minimal space between the staves must be slightly greater than the height of the staff
+    TWO_BARLINE_DIFF = 20   # There can be a measure, that ends with two bar lines, but the space between them is not another measure.
+    NEW_STAFF_DIFF = 1.1 * staves[0].height     # The minimal space between the staves must be slightly greater than the height of the staff
 
     # Create a bounding box for each bar
     staff_index = 0
@@ -154,10 +154,10 @@ def process_bar_lines(
         x, y, _, _ = bar_lines_sorted[i].bbox()
         x2, y2, _, _ = bar_lines_sorted[i+1].bbox() if i+1 < len(bar_lines_sorted) else (0, 0, 0, 0)
 
-        if (y2 - y) > new_staff_diff: 
+        if (y2 - y) > NEW_STAFF_DIFF: 
             staff_index += 1
             continue   # This is not a measure, but a new line = new staff. (Or the end of the score.)
-        if (x2 - x) < two_barline_diff: continue    # This is not a measure, but a double bar line.
+        if (x2 - x) < TWO_BARLINE_DIFF: continue    # This is not a measure, but a double bar line.
 
         width = x2 - x
         height = staves[staff_index].height

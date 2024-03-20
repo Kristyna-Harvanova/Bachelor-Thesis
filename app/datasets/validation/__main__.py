@@ -1,10 +1,7 @@
-# TODO: Uses same interface as `evaluation_dataset`. Code for this is in `app/datasets/evaluation`. 
-# Udelat to takto - mit modul na validation a volat kod z evaluation modulu?
-
 from pathlib import Path 
 from ..evaluation.extract_annotations_from_workbench import extract_annotations_from_workbench
 from ..evaluation.create_new_workbench import create_new_workbench  
-# TODO: dotaz - jaka je konvence, nejdrim import cizich modulu, potom mych? nebo naopak?
+# TODO: vymyslet konvence, nejdrim import cizich modulu, potom mych? nebo naopak?
 
 def main():
     # Create new workbenches from the images
