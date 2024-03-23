@@ -23,12 +23,12 @@ def main():
     svg_files = list(path_svgs.glob("**/*.svg"))
     svg_files.sort() # Sort files if not in the same directory
 
-    # for i, svg_file in enumerate(svg_files):
-    #     print(i)
-    #     extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic.
-    #         str(svg_file),
-    #         str(svg_file.with_suffix(".json")) 
-    #     )
+    for i, svg_file in enumerate(svg_files):
+        print(i)
+        extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic.
+            str(svg_file),
+            str(svg_file.with_suffix(".json")) 
+        )
 
 if __name__ == "__main__":
     main()
