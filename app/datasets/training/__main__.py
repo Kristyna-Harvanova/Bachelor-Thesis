@@ -17,8 +17,8 @@ def main():
     # Convert the MSCX files to .svg
     #convert_mscx2format(str(path_mscxs), "svg")    #NOTE: info trva cca 10 minut.
     
-    # path = Path("datasets", "Lieder-main", "scores", "Satie,_Erik", "Socrate")
-    # convert_mscx2format(str(path), "svg")    
+    # path = Path("datasets", "Lieder-main", "scores", "Schröter,_Corona", "25_Lieder")
+    # convert_mscx2format(str(path), "svg")  
 
     # Extract the annotations from the SVG 
     path_svgs = Path("datasets", "Lieder-main", "scores")
@@ -27,7 +27,7 @@ def main():
     svg_files.sort() # Sort files if not in the same directory
 
     for i, svg_file in enumerate(svg_files):
-        if i < 4109: continue
+        if i < 4121: continue
         print(i)
         extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic.
             str(svg_file),
