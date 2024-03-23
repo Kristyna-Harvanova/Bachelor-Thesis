@@ -29,7 +29,7 @@ def main():
     for i, svg_file in enumerate(svg_files):
         if i < 4121: continue
         print(i)
-        extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic.
+        extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic. Vytvoreno 5174 souboru.
             str(svg_file),
             str(svg_file.with_suffix(".json")) 
         )
