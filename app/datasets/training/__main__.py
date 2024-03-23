@@ -27,7 +27,7 @@ def main():
     svg_files.sort() # Sort files if not in the same directory
 
     for i, svg_file in enumerate(svg_files):
-        if i < 4027: continue
+        if i < 4109: continue
         print(i)
         extract_annotations_from_mscore_svg(      #NOTE: info trva cca 4 hodiny na aic.
             str(svg_file),
