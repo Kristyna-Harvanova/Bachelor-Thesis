@@ -32,17 +32,31 @@ def main():
     json_files = list(path_jsons.glob("**/*.json"))
     json_files.sort()
 
-    from datetime import datetime
-    start = datetime.now()
+    # for i, json_file in enumerate(json_files):
+    #     print(f"{i}: {json_file}")
+    #     json_to_yolo_format(                        #NOTE: info trva cca 30 sekund na aic. Vytvoreno 5165 souboru.
+    #         json_file,
+    #         Path("yolo", "dataset", "labels", "train")
+    #     )
 
-    for i, json_file in enumerate(json_files):
-        print(i)
-        json_to_yolo_format(
-            json_file,
-            Path("..", "yolo", "dataset", "labels")
-        )
 
-    print(datetime.now() - start)
+    # Copy images into directory for Yolo training
+    # import shutil
+
+    # path_pngs = Path("datasets", "Lieder-main", "scores")
+    # png_files = list(path_pngs.glob("**/*.png"))
+    # png_files.sort()
+
+    # dest_dir = Path("yolo", "dataset", "images", "train")
+
+    # from datetime import datetime
+    # start = datetime.now()
+
+    # for i, png_file in enumerate(png_files):
+    #     print(f"{i}: {png_file}")
+    #     shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
+
+    # print(datetime.now() - start)
 
 
 if __name__ == "__main__":
