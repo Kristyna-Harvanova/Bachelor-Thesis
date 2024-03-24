@@ -1,7 +1,6 @@
 from pathlib import Path 
 from ..evaluation.extract_annotations_from_workbench import extract_annotations_from_workbench
 from ..evaluation.create_new_workbench import create_new_workbench  
-# TODO: vymyslet konvence, nejdrim import cizich modulu, potom mych? nebo naopak?
 
 def main():
     # Create new workbenches from the images

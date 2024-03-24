@@ -1,5 +1,5 @@
-from svgelements import *
 import json
+from svgelements import *
 from ...Annotation import Annotation
 
 def extract_annotations_from_workbench(

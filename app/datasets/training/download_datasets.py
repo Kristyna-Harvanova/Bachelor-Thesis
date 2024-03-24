@@ -1,7 +1,7 @@
-from tqdm import tqdm
 import requests
 import zipfile
 from pathlib import Path
+from tqdm import tqdm
 
 def download_oslic(dataset_dir: Path = Path("datasets")):
     download_dataset(

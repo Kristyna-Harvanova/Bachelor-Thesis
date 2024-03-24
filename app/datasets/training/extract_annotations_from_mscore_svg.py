@@ -1,5 +1,5 @@
-from svgelements import *
 import json
+from svgelements import *
 from statistics import median
 from ...Annotation import Annotation
 

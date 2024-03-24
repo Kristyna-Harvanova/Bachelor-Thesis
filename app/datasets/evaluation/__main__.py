@@ -1,6 +1,6 @@
-from .extract_annotations_from_workbench import extract_annotations_from_workbench
-from .create_new_workbench import create_new_workbench
 from pathlib import Path 
+from .create_new_workbench import create_new_workbench
+from .extract_annotations_from_workbench import extract_annotations_from_workbench
 
 def main():
     # Create new workbenches from the images
