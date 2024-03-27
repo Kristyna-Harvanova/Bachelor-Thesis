@@ -40,7 +40,6 @@ def main():
     #     )
 
 
-    # TODO: alfa kanal - invertnout pomoci np, pozadi bude bile
     # Copy images into directory for Yolo training
     # import shutil
 
@@ -58,6 +57,30 @@ def main():
     #     shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
 
     # print(datetime.now() - start)
+
+
+    png_files = list(Path("yolo", "dataset", "images", "train").glob("*.png"))
+    
+    # # TODO: from alpha and black pistures to white and black pictures
+    # import cv2
+    # for i, png_file in enumerate(png_files):
+    #     print(f"{i}: {png_file}")
+    #     img = cv2.imread(str(png_file), cv2.IMREAD_UNCHANGED)
+    #     img[img == 0] = 255
+    #     cv2.imwrite(str(png_file), img)
+    
+    # TODO: using numpy: from alpha and black pistures to white and black pictures
+    import numpy as np
+    for i, png_file in enumerate(png_files):
+        print(f"{i}: {png_file}")
+        img = np.array(Image.open(str(png_file)))
+        img[img == 0] = 255
+        Image.fromarray(img).save(str(png_file))
+        
+    
+
+
+   
 
 
 if __name__ == "__main__":
