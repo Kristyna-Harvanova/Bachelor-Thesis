@@ -40,6 +40,7 @@ def main():
     #     )
 
 
+    # TODO: alfa kanal - invertnout pomoci np, pozadi bude bile
     # Copy images into directory for Yolo training
     # import shutil
 
