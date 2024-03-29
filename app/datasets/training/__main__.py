@@ -59,29 +59,24 @@ def main():
     # print(datetime.now() - start)
 
 
-    png_files = list(Path("yolo", "dataset", "images", "train").glob("*.png"))
+    # From alpha and black pictures to white and black pictures
+    png_files = list(Path("yolo", "dataset", "images", "train_20").glob("*.png"))
+    #png_files = list(Path("yolo", "dataset", "images", "val").glob("*.png"))
     
-    # # TODO: from alpha and black pistures to white and black pictures
-    # import cv2
-    # for i, png_file in enumerate(png_files):
+    # import numpy as np
+    # from PIL import Image
+    # for i, png_file in enumerate(png_files):        
     #     print(f"{i}: {png_file}")
-    #     img = cv2.imread(str(png_file), cv2.IMREAD_UNCHANGED)
-    #     img[img == 0] = 255
-    #     cv2.imwrite(str(png_file), img)
-    
-    # TODO: using numpy: from alpha and black pistures to white and black pictures
-    import numpy as np
-    for i, png_file in enumerate(png_files):
-        print(f"{i}: {png_file}")
-        img = np.array(Image.open(str(png_file)))
-        img[img == 0] = 255
-        Image.fromarray(img).save(str(png_file))
+    #     img = Image.open(str(png_file)).convert("RGBA")  # Ensure the image is in RGBA mode
+    #     data = np.array(img)  # Convert to numpy array to manipulate pixels
+
+    #     # Identify pixels where the alpha channel is not fully opaque (less than 255)
+    #     transparent = data[..., 3] < 255
         
-    
+    #     # Change only those pixels: set them to white (255, 255, 255) and fully opaque (alpha = 255)
+    #     data[transparent] = [255, 255, 255, 255]
 
-
-   
-
+    #     Image.fromarray(data, mode="RGBA").save(str(png_file))
 
 if __name__ == "__main__":
     main()
