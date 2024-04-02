@@ -2,8 +2,8 @@ import cv2 as cv2
 import numpy as np
 
 def prepare_back_side(
-        image: np.ndarray,
-        output_path: str = "mashcima2/postprocessing/prepared_back_side.png"
+        image: np.ndarray#,
+        #output_path: str = "mashcima2/postprocessing/prepared_back_side.png"
 ) -> np.ndarray:
     """Blurs the image and rotates it along the y axis."""
 
@@ -22,8 +22,8 @@ def prepare_back_side(
 def layer_images(
         background: np.ndarray,
         foreground: np.ndarray,
-        alpha: float = 0.5,
-        output_path: str = "mashcima2/postprocessing/layered_background.png"
+        alpha: float = 0.5#,
+        #output_path: str = "mashcima2/postprocessing/layered_background.png"
 ) -> np.ndarray:
     """Layers two images on top of each other."""
 
@@ -47,8 +47,8 @@ def layer_images(
 def seep_image(
         seep_image: np.ndarray,
         background_image: np.ndarray,
-        main_image: np.ndarray,
-        output_path: str = "mashcima2/postprocessing/seeped_image.png"
+        main_image: np.ndarray#,
+        #output_path: str = "mashcima2/postprocessing/seeped_image.png"
 ) -> np.ndarray:
     """Seeps the backside into the background of the main image and returns one complete image."""  
 
