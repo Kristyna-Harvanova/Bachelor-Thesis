@@ -4,13 +4,13 @@ from .extract_annotations_from_workbench import extract_annotations_from_workben
 
 def main():
     # Create new workbenches from the images
-    path_images = Path("evaluation_dataset", "images")
+    # path_images = Path("evaluation_dataset", "images")
     path_workbenches = Path("evaluation_dataset", "workbenches")
-    for image_path in path_images.iterdir():
-        create_new_workbench(
-            str(image_path), 
-            str(path_workbenches / (image_path.stem + ".svg"))
-        )
+    # for image_path in path_images.iterdir():
+    #     create_new_workbench(
+    #         str(image_path), 
+    #         str(path_workbenches / (image_path.stem + ".svg"))
+    #     )
 
     # Extract the annotations from the SVG files
     path_annotations = Path("evaluation_dataset", "annotations")
