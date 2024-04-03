@@ -33,7 +33,7 @@ def main():
     generator = BackgroundGenerator(path_to_download)
 
     path_to_background_dir = Path("app", "datasets", "augmentation", "backgrounds", "generated")
-    #TODO: Common je docela i 3060, 3960. Predgenerovat taky??
+    #TODO: Common je docela i 3060, 3960. Predgenerovat taky?? - udelat velike, pak vyriznout pro dany rozmer - pro kazdy vzorek vice vygenerovanych nebo z 5000x5000 rezat nahodne
     COMMON_WIDTH, COMMON_HEIGHT = 2977, 4208
     # generator.generate_all(COMMON_WIDTH, COMMON_HEIGHT, path_to_background_dir)
 
@@ -76,7 +76,7 @@ def main():
     # test_path_to = test_path_from.parent / "with_seep" / (test_path_from.stem + "_with_seep.png")
 
     # back_side = cv2.imread(str(test_path_from))
-    # #TODO: uz funguje tak, ze je pridavano i pozadi. Udelat tedy i bez pridaneho pozadi jen ciste prosak na bile?
+    # #TODO: Udelat tedy i bez pridaneho pozadi jen ciste prosak na bile.
     # height, width = back_side.shape[:2]
     # if width == COMMON_WIDTH and height == COMMON_HEIGHT:
     #     backgroung_from_quilt = cv2.imread(str(backgrounds[np.random.randint(0, len(backgrounds))]))
@@ -84,6 +84,7 @@ def main():
     #     backgroung_from_quilt = generator.generate(width, height)
 
     # front_side = cv2.imread(str(test_path_from))
+    #TODO: mira prosaku - 0-1
     # seeped_image = seep_image(back_side, backgroung_from_quilt, front_side)
     # cv2.imwrite(str(test_path_to), seeped_image)
     # print(f"Seeped: {test_path_to}")
@@ -98,11 +99,12 @@ def main():
     # test_path_to = test_path_from.parent / "with_handwriting" / (test_path_from.stem + "_with_handwriting.png")
 
     # image = cv2.imread(str(test_path_from))
-    # image = augment(image, -1)
+    # image = augment(image, -1)    # TODO: random vybirat (-pi; pi)
     # cv2.imwrite(str(test_path_to), image)
     # print(f"Handwritten: {test_path_to}")
 
 
+    ### Kanungo: TODO
 
 if __name__ == "__main__":
     main()
