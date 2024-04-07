@@ -154,9 +154,9 @@ class BackgroundGenerator:
     
     def generate_all(
         self,
-        width_px: int,
-        height_px: int,
-        out_directory: Path
+        out_directory: Path,
+        width_px = 5000,
+        height_px = 5000
     ):
         for i, texture in enumerate(self.images):
             background = self.generate(width_px, height_px, 150, texture)

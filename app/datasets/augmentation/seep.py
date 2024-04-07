@@ -22,7 +22,7 @@ def prepare_back_side(
 def layer_images(
         background: np.ndarray,
         foreground: np.ndarray,
-        alpha: float = 0.5#,
+        alpha: float = 0.2#,
         #output_path: str = "mashcima2/postprocessing/layered_background.png"
 ) -> np.ndarray:
     """Layers two images on top of each other."""
@@ -36,7 +36,7 @@ def layer_images(
 
     # Layer the images.
     beta = ( 1.0 - alpha )
-    result = cv2.addWeighted(background, alpha, foreground, beta, 0.0)
+    result = cv2.addWeighted(background, beta, foreground, alpha, 0.0)
 
 #     # Saving the image.
 #     cv2.imwrite(output_path, result)
@@ -47,17 +47,19 @@ def layer_images(
 def seep_image(
         seep_image: np.ndarray,
         background_image: np.ndarray,
-        main_image: np.ndarray#,
+        seep_level: float
+        #main_image: np.ndarray#,
         #output_path: str = "mashcima2/postprocessing/seeped_image.png"
 ) -> np.ndarray:
     """Seeps the backside into the background of the main image and returns one complete image."""  
 
     seep_image = prepare_back_side(seep_image)
-    background = layer_images(background_image, seep_image)
-    seeped_image = layer_images(background, main_image)
+    background = layer_images(background_image, seep_image, seep_level/3)
+    #seeped_image = layer_images(background, main_image)
 
 #     # Saving the image.
 #     cv2.imwrite(output_path, seeped_image)
 
-    return seeped_image
+    return background
+    #return seeped_image
 

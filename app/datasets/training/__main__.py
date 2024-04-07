@@ -41,42 +41,23 @@ def main():
 
 
     # Copy images into directory for Yolo training
-    # import shutil
+    import shutil
 
-    # path_pngs = Path("datasets", "Lieder-main", "scores")
-    # png_files = list(path_pngs.glob("**/*.png"))
-    # png_files.sort()
+    path_pngs = Path("datasets", "Lieder-main", "scores")
+    png_files = list(path_pngs.glob("**/*.png"))
+    png_files.sort()
 
-    # dest_dir = Path("yolo", "dataset", "images", "train")
+    dest_dir = Path("yolo", "dataset", "images", "train_alpha")
 
-    # from datetime import datetime
-    # start = datetime.now()
+    from datetime import datetime
+    start = datetime.now()
 
-    # for i, png_file in enumerate(png_files):
-    #     print(f"{i}: {png_file}")
-    #     shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
+    for i, png_file in enumerate(png_files):
+        print(f"{i}: {png_file}")
+        shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
 
-    # print(datetime.now() - start)
-
-
-    # From alpha and black pictures to white and black pictures
-    png_files = list(Path("yolo", "dataset", "images", "train_20").glob("*.png"))
-    #png_files = list(Path("yolo", "dataset", "images", "val").glob("*.png"))
+    print(datetime.now() - start)
     
-    # import numpy as np
-    # from PIL import Image
-    # for i, png_file in enumerate(png_files):        
-    #     print(f"{i}: {png_file}")
-    #     img = Image.open(str(png_file)).convert("RGBA")  # Ensure the image is in RGBA mode
-    #     data = np.array(img)  # Convert to numpy array to manipulate pixels
-
-    #     # Identify pixels where the alpha channel is not fully opaque (less than 255)
-    #     transparent = data[..., 3] < 255
-        
-    #     # Change only those pixels: set them to white (255, 255, 255) and fully opaque (alpha = 255)
-    #     data[transparent] = [255, 255, 255, 255]
-
-    #     Image.fromarray(data, mode="RGBA").save(str(png_file))
 
 if __name__ == "__main__":
     main()
