@@ -4,9 +4,9 @@ import cv2
 from PIL import Image
 import numpy as np
 from .BackgroundGenerator import BackgroundGenerator
-from .augment import augment_all, augment_with
+from .augment import alpha2white, augment_with
 
-from .seep import seep_image, layer_images, prepare_back_side
+from .seep import seep_image, layer_images, prepare_back_side   #TODO: smazat nepotrebne importy, udelat komentare 
 from .handwriting_augmentation import augment
 from .noise import kanungo
 
@@ -30,6 +30,16 @@ def main(take=None):
     #     # Create a new image from the binarized data
     #     dest_path = png_file.parent.parent / "train_white" / (png_file.stem + ".png")
     #     Image.fromarray(binarized_data[..., :3], mode="RGB").save(str(dest_path))
+
+    #TODO: try, if gives the same results (probably will be) instead of first From alpha to white
+    ### From alpha and black pictures to white and black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
+    # png_alpha_files = list(Path("yolo", "dataset", "images", "train_alpha").glob("*.png"))
+    # TRANSPARENCY_THRESHOLD = 50  # For example, considering alpha values <= 10 as "transparent enough"
+    # for i, png_file in enumerate(png_alpha_files):        
+    #     print(f"{i}: {png_file}")
+    #     output_image_path = png_file.parent.parent / "train_dest_test_dir" / (png_file.stem + ".png")   #TODO: regenerate to jpg?? ovlivni to datasety vzgenervane z train_white, ktere se delali z png?
+    #     alpha2white(png_file, output_image_path, TRANSPARENCY_THRESHOLD)
+
 
 
     ### Generate all possible backgrounds for MuseScore sheet size
@@ -69,17 +79,17 @@ def main(take=None):
     #     output_image_path = png_file.parent.parent / "train_without_back" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
     #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=True, pattern=False)
 
-    ### Augment without kanungo noise          # NOTE: 5175 trva cca 2 hodiny na aic
-    for i, png_file in enumerate(png_white_files):        
-        print(f"{i}: {png_file}")
-        output_image_path = png_file.parent.parent / "train_without_kanungo" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
-        augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=False, seep=True, pattern=True)
-
-    # ### Augment without seep          # NOTE: 5175 trva cca xx hodiny na aic
+    # ### Augment without kanungo noise          # NOTE: 5175 trva cca 2,2 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_without_seep" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
-    #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=False, pattern=True)
+    #     output_image_path = png_file.parent.parent / "train_without_kanungo" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
+    #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=False, seep=True, pattern=True)
+
+    ### Augment without seep          # NOTE: 5175 trva cca 2,5 hodiny na aic
+    for i, png_file in enumerate(png_white_files):        
+        print(f"{i}: {png_file}")
+        output_image_path = png_file.parent.parent / "train_without_seep" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
+        augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=False, pattern=True)
 
     # ### Augment without caligraphic handwriting          # NOTE: 5175 trva cca xx hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
