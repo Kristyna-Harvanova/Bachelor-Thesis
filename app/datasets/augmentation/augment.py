@@ -11,6 +11,8 @@ def alpha2white(
     output_image_path: Path,
     transparency_treshold: int
 ):
+    
+    """Converts the image to a binary image where alpha pixels are replaced with white ones."""
     img = Image.open(str(png_file)).convert("RGBA")  # Ensure the image is in RGBA mode
     data = np.array(img)  
 
@@ -23,7 +25,6 @@ def alpha2white(
     # Create a new image from the binarized data
     Image.fromarray(binarized_data[..., :3], mode="RGB").save(str(output_image_path))
 
-
 def augment_with(
     png_file: Path,
     output_image_path: Path,
@@ -35,6 +36,7 @@ def augment_with(
     seep=True,
     pattern=True
 ):
+    """Augments the image with optional background (pattern), seep, noise, and handwriting style."""
     # Load the image
     image = cv2.imread(str(png_file))
     height, width = image.shape[:2]

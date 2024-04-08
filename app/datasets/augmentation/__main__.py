@@ -1,14 +1,8 @@
 import argparse
 from pathlib import Path
-import cv2
-from PIL import Image
 import numpy as np
 from .BackgroundGenerator import BackgroundGenerator
 from .augment import alpha2white, augment_with
-
-from .seep import seep_image, layer_images, prepare_back_side   #TODO: smazat nepotrebne importy, udelat komentare 
-from .handwriting_augmentation import augment
-from .noise import kanungo
 
 def main(take=None):
     # ### From alpha-black pictures to white-black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
@@ -34,7 +28,7 @@ def main(take=None):
         chosen_indices = np.random.choice(len(png_white_files_array), take, replace=False)
         png_white_files = png_white_files_array[chosen_indices].tolist()
 
-    # ### Augment adding everything                   # NOTE: 5175 trva cca 3,5 hodiny na aic
+    # ### Augment adding everything                 # NOTE: 5175 trva cca 3,5 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
     #     output_image_path = png_file.parent.parent / "train_augm_all" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage

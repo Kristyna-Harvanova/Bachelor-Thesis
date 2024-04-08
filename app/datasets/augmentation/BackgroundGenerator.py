@@ -158,6 +158,7 @@ class BackgroundGenerator:
         width_px = 5000,
         height_px = 5000
     ):
+        """Gerenates all backgrounds from the given textures."""
         for i, texture in enumerate(self.images):
             background = self.generate(width_px, height_px, 150, texture)
             cv2.imwrite(str(out_directory / f"background{i}.jpg"), background)

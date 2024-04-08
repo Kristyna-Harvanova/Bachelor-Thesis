@@ -2,30 +2,23 @@ import cv2 as cv2
 import numpy as np
 
 def prepare_back_side(
-        image: np.ndarray#,
-        #output_path: str = "mashcima2/postprocessing/prepared_back_side.png"
+        image: np.ndarray
 ) -> np.ndarray:
     """Blurs the image and rotates it along the y axis."""
-
     # Bluring the image.
     image = cv2.blur(image, (10, 10))
 
     # Rotation along the y axis => parameter 1, along the x axis => parameter 0
     image = cv2.flip(image, 1)
 
-#     # Saving the image.
-#     cv2.imwrite(output_path, image)
-
     return image
-
 
 def layer_images(
         background: np.ndarray,
         foreground: np.ndarray,
-        alpha: float = 0.2#,
-        #output_path: str = "mashcima2/postprocessing/layered_background.png"
+        alpha: float = 0.2
 ) -> np.ndarray:
-    """Layers two images on top of each other."""
+    """Layers two images on top of each other with a given alpha value for the foreground image."""
 
     # Cut the images to the same size.
     x_shape = min(background.shape[0], foreground.shape[0])
@@ -38,28 +31,16 @@ def layer_images(
     beta = ( 1.0 - alpha )
     result = cv2.addWeighted(background, beta, foreground, alpha, 0.0)
 
-#     # Saving the image.
-#     cv2.imwrite(output_path, result)
-
     return result
-
 
 def seep_image(
         seep_image: np.ndarray,
         background_image: np.ndarray,
         seep_level: float
-        #main_image: np.ndarray#,
-        #output_path: str = "mashcima2/postprocessing/seeped_image.png"
 ) -> np.ndarray:
     """Seeps the backside into the background of the main image and returns one complete image."""  
 
     seep_image = prepare_back_side(seep_image)
     background = layer_images(background_image, seep_image, seep_level/3)
-    #seeped_image = layer_images(background, main_image)
-
-#     # Saving the image.
-#     cv2.imwrite(output_path, seeped_image)
 
     return background
-    #return seeped_image
-
