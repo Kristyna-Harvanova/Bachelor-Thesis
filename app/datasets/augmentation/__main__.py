@@ -11,44 +11,19 @@ from .handwriting_augmentation import augment
 from .noise import kanungo
 
 def main(take=None):
-    ### From alpha and black pictures to white and black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
-    # png_alpha_files = list(Path("yolo", "dataset", "images", "train_alpha").glob("*.png"))
-    
-    # TRANSPARENCY_THRESHOLD = 50  # For example, considering alpha values <= 10 as "transparent enough"
-
-    # for i, png_file in enumerate(png_alpha_files):        
-    #     print(f"{i}: {png_file}")
-    #     img = Image.open(str(png_file)).convert("RGBA")  # Ensure the image is in RGBA mode
-    #     data = np.array(img)  
-
-    #     # Binary mask where true indicates pixels that should turn black
-    #     black_mask = data[..., 3] >= TRANSPARENCY_THRESHOLD
-
-    #     binarized_data = np.ones_like(data) * 255  # Make everything white
-    #     binarized_data[black_mask, :3] = 0  # Set RGB to black, alpha stays 255 (fully opaque)
-
-    #     # Create a new image from the binarized data
-    #     dest_path = png_file.parent.parent / "train_white" / (png_file.stem + ".png")
-    #     Image.fromarray(binarized_data[..., :3], mode="RGB").save(str(dest_path))
-
-    #TODO: try, if gives the same results (probably will be) instead of first From alpha to white
-    ### From alpha and black pictures to white and black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
+    # ### From alpha-black pictures to white-black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
     # png_alpha_files = list(Path("yolo", "dataset", "images", "train_alpha").glob("*.png"))
     # TRANSPARENCY_THRESHOLD = 50  # For example, considering alpha values <= 10 as "transparent enough"
     # for i, png_file in enumerate(png_alpha_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_dest_test_dir" / (png_file.stem + ".png")   #TODO: regenerate to jpg?? ovlivni to datasety vzgenervane z train_white, ktere se delali z png?
+    #     output_image_path = png_file.parent.parent / "train_white" / (png_file.stem + ".png")   #TODO: regenerate to jpg?? ovlivni to datasety vzgenervane z train_white, ktere se delali z png?
     #     alpha2white(png_file, output_image_path, TRANSPARENCY_THRESHOLD)
 
-
-
-    ### Generate all possible backgrounds for MuseScore sheet size
+    # ### Generate all possible backgrounds for MuseScore sheet size
     # path_to_download = Path("app", "datasets", "augmentation", "backgrounds", "samples.csv")
     # generator = BackgroundGenerator(path_to_download)
-
     path_to_background_dir = Path("app", "datasets", "augmentation", "backgrounds", "generated")
     # generator.generate_all(path_to_background_dir)
-
 
     ### File praparation for all types of augmentation.
     png_white_files = list(Path("yolo", "dataset", "images", "train_white").glob("*.png"))
@@ -59,44 +34,36 @@ def main(take=None):
         chosen_indices = np.random.choice(len(png_white_files_array), take, replace=False)
         png_white_files = png_white_files_array[chosen_indices].tolist()
 
-    # ### Augment everything          # NOTE: 5175 trva cca 3,5 hodiny na aic
+    # ### Augment adding everything                   # NOTE: 5175 trva cca 3,5 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
     #     output_image_path = png_file.parent.parent / "train_augm_all" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
-    #     augment_all(png_file, output_image_path, backgrounds, png_white_files, take)
-
-    #TODO: try, if gives the same results (probably will be) instead of first Augment everything:
-    # ### Augment everything          # NOTE: 5175 trva cca 3,5 hodiny na aic
-    # for i, png_file in enumerate(png_white_files):        
-    #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_trying_dir" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
     #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=True, pattern=True)
 
-    
-    # ### Augment without pattern (background) # NOTE: 5175 trva cca 3,2 hodiny na aic
+    # ### Augment without pattern (background)      # NOTE: 5175 trva cca 3,2 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_without_back" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
+    #     output_image_path = png_file.parent.parent / "train_without_back" / (png_file.stem + ".jpg")
     #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=True, pattern=False)
 
-    # ### Augment without kanungo noise          # NOTE: 5175 trva cca 2,2 hodiny na aic
+    # ### Augment without kanungo noise             # NOTE: 5175 trva cca 2,2 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_without_kanungo" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
+    #     output_image_path = png_file.parent.parent / "train_without_kanungo" / (png_file.stem + ".jpg")
     #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=False, seep=True, pattern=True)
 
-    ### Augment without seep          # NOTE: 5175 trva cca 2,5 hodiny na aic
-    for i, png_file in enumerate(png_white_files):        
-        print(f"{i}: {png_file}")
-        output_image_path = png_file.parent.parent / "train_without_seep" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
-        augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=False, pattern=True)
-
-    # ### Augment without caligraphic handwriting          # NOTE: 5175 trva cca xx hodiny na aic
+    # ### Augment without seep                      # NOTE: 5175 trva cca 2,5 hodiny na aic
     # for i, png_file in enumerate(png_white_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_without_caligraph" / (png_file.stem + ".jpg")  #NOTE: saving as a .jpg file to save disk storage
-    #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=False, noise=True, seep=True, pattern=True)
+    #     output_image_path = png_file.parent.parent / "train_without_seep" / (png_file.stem + ".jpg")
+    #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=True, noise=True, seep=False, pattern=True)
 
+    # ### Augment without caligraphic handwriting   # NOTE: 5175 trva cca 2,85 hodiny na aic
+    # for i, png_file in enumerate(png_white_files):        
+    #     print(f"{i}: {png_file}")
+    #     output_image_path = png_file.parent.parent / "train_without_caligraph" / (png_file.stem + ".jpg")
+    #     augment_with(png_file, output_image_path, backgrounds, png_white_files, take, handwriting=False, noise=True, seep=True, pattern=True)
+    
 
 if __name__ == "__main__":
     # Set up argument parsing
