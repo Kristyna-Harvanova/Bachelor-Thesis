@@ -29,34 +29,36 @@ def main():
 
     # Convert the annotations to YOLO format
     path_jsons = Path("datasets", "Lieder-main", "scores")
+    #path_jsons = Path("validation_dataset", "annotations")
     json_files = list(path_jsons.glob("**/*.json"))
     json_files.sort()
 
-    # for i, json_file in enumerate(json_files):
-    #     print(f"{i}: {json_file}")
-    #     json_to_yolo_format(                        #NOTE: info trva cca 30 sekund na aic. Vytvoreno 5165 souboru.
-    #         json_file,
-    #         Path("yolo", "dataset", "labels", "train")
-    #     )
+    for i, json_file in enumerate(json_files):
+        print(f"{i}: {json_file}")
+        json_to_yolo_format(                        #NOTE: info trva cca 30 sekund na aic. Vytvoreno 5165 souboru.
+            json_file,
+            Path("yolo", "dataset", "labels", "train_white")
+            #Path("yolo", "dataset", "labels", "val")
+        )
 
 
-    # Copy images into directory for Yolo training
-    import shutil
+    # # Copy images into directory for Yolo training
+    # import shutil
 
-    path_pngs = Path("datasets", "Lieder-main", "scores")
-    png_files = list(path_pngs.glob("**/*.png"))
-    png_files.sort()
+    # path_pngs = Path("datasets", "Lieder-main", "scores")
+    # png_files = list(path_pngs.glob("**/*.png"))
+    # png_files.sort()
 
-    dest_dir = Path("yolo", "dataset", "images", "train_alpha")
+    # dest_dir = Path("yolo", "dataset", "images", "train_alpha")
 
-    from datetime import datetime
-    start = datetime.now()
+    # from datetime import datetime
+    # start = datetime.now()
 
-    for i, png_file in enumerate(png_files):
-        print(f"{i}: {png_file}")
-        shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
+    # for i, png_file in enumerate(png_files):
+    #     print(f"{i}: {png_file}")
+    #     shutil.copy(png_file, dest_dir / png_file.name) #NOTE: info trva cca 6 minut na aic. Vytvoreno 5174 souboru.
 
-    print(datetime.now() - start)
+    # print(datetime.now() - start)
     
 
 if __name__ == "__main__":
