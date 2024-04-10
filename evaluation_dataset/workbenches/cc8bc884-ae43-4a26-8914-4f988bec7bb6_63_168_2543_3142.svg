@@ -24,9 +24,9 @@
      inkscape:document-units="mm"
      showgrid="false"
      units="px"
-     inkscape:zoom="1.7582312"
-     inkscape:cx="1381.502"
-     inkscape:cy="1232.4886"
+     inkscape:zoom="0.8791156"
+     inkscape:cx="2331.3202"
+     inkscape:cy="3295.926"
      inkscape:window-width="1920"
      inkscape:window-height="974"
      inkscape:window-x="-11"
@@ -51,7 +51,8 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="Staff"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <rect
        style="fill:#ffff00;fill-opacity:0.263889;stroke-width:0.377953"
        id="rect271"
