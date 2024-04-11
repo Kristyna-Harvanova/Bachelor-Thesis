@@ -5,12 +5,14 @@ from .BackgroundGenerator import BackgroundGenerator
 from .augment import alpha2white, augment_with
 
 def main(take=None):
+    np.random.seed(7)   #NOTE: propise se vsude, neni potreba nastavovat i v dalsich souborech
+
     # ### From alpha-black pictures to white-black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
     # png_alpha_files = list(Path("yolo", "dataset", "images", "train_alpha").glob("*.png"))
     # TRANSPARENCY_THRESHOLD = 50  # For example, considering alpha values <= 10 as "transparent enough"
     # for i, png_file in enumerate(png_alpha_files):        
     #     print(f"{i}: {png_file}")
-    #     output_image_path = png_file.parent.parent / "train_white" / (png_file.stem + ".png")   #TODO: regenerate to jpg?? ovlivni to datasety vzgenervane z train_white, ktere se delali z png?
+    #     output_image_path = png_file.parent.parent / "train_white" / (png_file.stem + ".png")  
     #     alpha2white(png_file, output_image_path, TRANSPARENCY_THRESHOLD)
 
     # ### Generate all possible backgrounds for MuseScore sheet size
