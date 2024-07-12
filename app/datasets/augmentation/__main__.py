@@ -5,7 +5,7 @@ from .BackgroundGenerator import BackgroundGenerator
 from .augment import alpha2white, augment_with
 
 def main(take=None):
-    np.random.seed(7)   #NOTE: propise se vsude, neni potreba nastavovat i v dalsich souborech
+    np.random.seed(7)   #NOTE: for reproducibility
 
     # ### From alpha-black pictures to white-black pictures   # NOTE: 5174 trva cca 2,5 hodiny na aic
     # png_alpha_files = list(Path("yolo", "dataset", "images", "train_alpha").glob("*.png"))

@@ -14,9 +14,6 @@ def convert_mscx2format(
     # Run the conversion
     os.system(f"\"C:\\Program Files\\MuseScore 3\\bin\\MuseScore3.exe\" -j {json_path}")    #NOTE: nezmenit cestu na univerzalni. proste takhle ted. jde to nejak nezavisle na OS?
 
-    # Remove the JSON file
-    #os.remove(json_path)   #NOTE: netreba remove zatim asi, pokud ano, tak pouzit Path.unlink()???????
-
 def create_json_for_conversion(
     dataset_dir_path: str,
     format="png",
