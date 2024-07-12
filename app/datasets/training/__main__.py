@@ -28,9 +28,9 @@ def main():
     #     )
 
     # Convert the annotations to YOLO format
-    #path_jsons = Path("datasets", "Lieder-main", "scores")
-    #path_jsons = Path("validation_dataset", "annotations")     #TODO: generate eslewhere for eval and val with new yolo/dataset structure
-    path_jsons = Path("evaluation_dataset", "annotations")
+    path_jsons = Path("datasets", "Lieder-main", "scores")
+    # path_jsons = Path("validation_dataset", "annotations")     #TODO: generate eslewhere for eval and val with new yolo/dataset structure
+    # path_jsons = Path("evaluation_dataset", "annotations")
     json_files = list(path_jsons.glob("**/*.json"))
     json_files.sort()
 
@@ -40,7 +40,11 @@ def main():
             json_file,
             #Path("yolo", "dataset", "labels", "train_white")
             #Path("yolo", "dataset", "labels", "val")   
-            Path("yolo", "dataset", "eval", "labels")
+            #Path("yolo", "dataset", "eval", "labels")
+            # Path("yolo", "dataset", "labels_Notehead_3xLargerBBox"), "Notehead"
+            # Path("yolo", "dataset", "labels_Staff"), "Staff"
+            # Path("yolo", "dataset", "labels_StaffMeasure"), "StaffMeasure"
+            # Path("yolo", "dataset", "val_noteheads", "labels"), "Notehead"
         )
 
 

@@ -27,6 +27,7 @@ def compute_bbox(
 def json_to_yolo_format(
     json_path: Path,
     output_dir: Path,
+    wanted_class=None   # Specify one of Annotation.CLASSES class. If not specified, generate all classes together
 ):
     """
     Convert the JSON annotations to YOLO format.
@@ -54,9 +55,13 @@ def json_to_yolo_format(
             height = annotation['height']
 
             # Convert the data to YOLO format
-            cls = Annotation.CLASSES.index(cls)
-            x_center, y_center, width, height = compute_bbox(
-                x_left, y_up, width, height, img_width, img_height
-            )
+            if cls == wanted_class or wanted_class is None:
+                cls = Annotation.CLASSES.index(cls)
+                x_center, y_center, width, height = compute_bbox(
+                    x_left, y_up, width, height, img_width, img_height
+                )
+                # file.write(f"{cls} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")
+                file.write(f"0 {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")   # An only class has to have class number 0. 
+                # file.write(f"{cls} {x_center:.6f} {y_center:.6f} {2*width:.6f} {2*height:.6f}\n")
+                # file.write(f"{cls} {x_center:.6f} {y_center:.6f} {3*width:.6f} {3*height:.6f}\n")
 
-            file.write(f"{cls} {x_center:.6f} {y_center:.6f} {width:.6f} {height:.6f}\n")
