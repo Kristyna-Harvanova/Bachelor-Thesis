@@ -1,0 +1,11 @@
+
+path: /home/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset
+train: eval
+val: eval
+
+# Classes
+names:
+  0: Staff
+  # 0: Notehead
+  # 1: Staff
+  # 2: StaffMeasure

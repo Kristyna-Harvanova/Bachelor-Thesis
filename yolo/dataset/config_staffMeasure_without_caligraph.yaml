@@ -1,0 +1,12 @@
+
+path: /home/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset
+train: train_without_caligraph
+# val: val
+val: val_staffMeasure
+
+# Classes
+names:
+  0: StaffMeasure
+  # 0: Notehead
+  # 1: Staff
+  # 2: StaffMeasure

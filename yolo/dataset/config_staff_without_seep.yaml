@@ -1,0 +1,12 @@
+
+path: /home/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset
+train: train_without_seep
+# val: val
+val: val_staff
+
+# Classes
+names:
+  0: Staff
+  # 0: Notehead
+  # 1: Staff
+  # 2: StaffMeasure

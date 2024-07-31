@@ -1,0 +1,19 @@
+Ultralytics YOLOv8.1.34 🚀 Python-3.11.7 torch-2.2.1+cu121 CPU (Intel Xeon Silver 4110 2.10GHz)
+YOLOv8n summary (fused): 168 layers, 3005843 parameters, 0 gradients, 8.1 GFLOPs
+[34m[1mval: [0mScanning /lnet/aic/personal/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset/eval/labels...:   0%|          | 0/6 [00:00<?, ?it/s][34m[1mval: [0mScanning /lnet/aic/personal/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset/eval/labels... 6 images, 0 backgrounds, 0 corrupt: 100%|██████████| 6/6 [00:00<00:00, 116.88it/s]
+[34m[1mval: [0mNew cache created: /lnet/aic/personal/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset/eval/labels.cache
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95):   0%|          | 0/1 [00:00<?, ?it/s]                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:02<00:00,  2.84s/it]                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100%|██████████| 1/1 [00:02<00:00,  2.85s/it]
+                   all          6         67      0.404      0.448        0.4     0.0444
+Speed: 2.2ms preprocess, 281.9ms inference, 0.0ms loss, 20.5ms postprocess per image
+Results saved to [1mruns/detect/val17[0m
+
+0: 640x640 11 Staffs, 231.9ms
+1: 640x640 23 Staffs, 231.9ms
+2: 640x640 14 Staffs, 231.9ms
+3: 640x640 18 Staffs, 231.9ms
+4: 640x640 15 Staffs, 231.9ms
+5: 640x640 15 Staffs, 231.9ms
+Speed: 4.2ms preprocess, 231.9ms inference, 0.7ms postprocess per image at shape (1, 3, 640, 640)
+slurmstepd: error: common_file_write_uint32s: write pid 962830 to /sys/fs/cgroup/cgroup.procs failed: Device or resource busy
+slurmstepd: error: Unable to move pid 962830 to init root cgroup /sys/fs/cgroup
+slurmstepd: error: error unlocking cgroup '/sys/fs/cgroup/system.slice/slurmstepd.scope' : Bad file descriptor

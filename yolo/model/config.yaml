@@ -1,0 +1,12 @@
+
+path: /home/harvanok/bachelor-thesis/Bachelor-Thesis/yolo/dataset
+train: images/train_white
+val: images/val
+# train: images/train_white
+# val: images/train_white
+#TODO skturktura - dataset/train_x/images, labels
+# Classes
+names:
+  0: Notehead
+  1: Staff
+  2: StaffMeasure

@@ -2,6 +2,3 @@
 __pycache__/
 /datasets
 /musescore
-/job.out
-/job.sh
-/yolo
